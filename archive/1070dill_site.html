@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>1070 Dill — New Affordable Townhomes in Capitol View, Atlanta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-warm: #f7f4ef;
+    --ink: #1a1a1a;
+    --ink-soft: #6c6c6c;
+    --line: #d8d3ca;
+    --accent: #8b6b3d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  /* ------- NAV ------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s, padding 0.3s, color 0.3s;
+  }
+  nav.scrolled {
+    background: var(--bg);
+    padding: 1rem 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-brand {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: white;
+  }
+  nav.scrolled .nav-brand { color: var(--ink); }
+  .nav-right {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  nav.scrolled .nav-right { color: var(--ink); }
+  .nav-link {
+    letter-spacing: 0.03em;
+    transition: opacity 0.15s;
+  }
+  .nav-link:hover { opacity: 0.6; }
+
+  /* ------- HERO ------- */
+  .hero {
+    height: 100vh;
+    min-height: 720px;
+    position: relative;
+    overflow: hidden;
+    background: #2a2a2a;
+  }
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: absolute;
+    bottom: 5rem;
+    left: 2.5rem;
+    right: 2.5rem;
+    color: white;
+    max-width: 1500px;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 1.25rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.95;
+  }
+  .hero-meta-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255,255,255,0.5);
+  }
+  .hero-meta strong { font-weight: 600; }
+
+  /* ------- SECTION BASE ------- */
+  section.spaced {
+    padding: 9rem 2.5rem;
+  }
+  .container {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    max-width: 850px;
+  }
+  .lede {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 640px;
+    line-height: 1.65;
+  }
+
+  /* ------- INTRO (PHOTO LEFT, TEXT RIGHT) ------- */
+  .intro {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .intro-image {
+    aspect-ratio: 4/5;
+    background: var(--bg-warm) url('intro.jpg') center/cover no-repeat;
+    position: relative;
+  }
+  .intro-image.placeholder::after {
+    content: "intro.jpg";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  /* ------- HIGHLIGHTS ROW ------- */
+  .highlights {
+    background: var(--bg-warm);
+    padding: 5rem 2.5rem;
+  }
+  .highlights-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+  .highlight {
+    text-align: left;
+  }
+  .highlight-num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+  .highlight-num small {
+    font-size: 0.45em;
+    color: var(--ink-soft);
+    font-weight: 400;
+    letter-spacing: 0;
+    font-family: 'Inter', sans-serif;
+    margin-left: 0.35em;
+  }
+  .highlight-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  /* ------- AFFORDABILITY (THE MATH) ------- */
+  .math-section .display { margin-bottom: 2rem; }
+  .math-section .lede { margin-bottom: 6rem; }
+  .equation {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    padding: 2rem 0 4rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 5rem;
+  }
+  .eq-item {
+    text-align: center;
+    min-width: 180px;
+  }
+  .eq-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+  .eq-value {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .eq-value.result { color: var(--accent); }
+  .eq-op {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1;
+    align-self: center;
+  }
+  .programs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+  .program-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.005em;
+  }
+  .program-amount {
+    font-size: 0.9rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .program-desc {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .fine-print {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+    max-width: 720px;
+  }
+
+  /* ------- GALLERY STRIP ------- */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .gallery-img {
+    aspect-ratio: 1/1;
+    background: var(--bg-warm);
+    position: relative;
+  }
+  .gallery-img.placeholder::after {
+    content: attr(data-name);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .gallery-img.tall { aspect-ratio: 3/4; }
+  .gallery-img.wide { aspect-ratio: 4/3; }
+
+  /* ------- TOUR (FULL-BLEED OVERLAY) ------- */
+  .tour {
+    position: relative;
+    padding: 10rem 2.5rem;
+    background: var(--ink) url('tour-bg.jpg') center/cover no-repeat;
+    color: white;
+    overflow: hidden;
+  }
+  .tour::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.45) 100%);
+  }
+  .tour-inner {
+    position: relative;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .tour-left .eyebrow { color: rgba(255,255,255,0.7); }
+  .tour-left .display { color: white; max-width: 480px; }
+  .tour-left .lede { color: rgba(255,255,255,0.8); }
+  .contact-line {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.8);
+  }
+  .contact-line .name {
+    display: block;
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .tour-form {
+    color: white;
+  }
+  .tour-form h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.005em;
+  }
+  .field {
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .field label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.6rem;
+  }
+  .field input,
+  .field select {
+    width: 100%;
+    padding: 0.5rem 0 0.7rem;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+    background: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-bottom-color: white;
+  }
+  .field select option { color: var(--ink); }
+  .submit {
+    margin-top: 2.5rem;
+    background: white;
+    color: var(--ink);
+    padding: 1.1rem 2.5rem;
+    border: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .submit:hover { background: var(--accent); color: white; }
+
+  /* ------- FOOTER ------- */
+  footer {
+    padding: 4rem 2.5rem 3rem;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+  .footer-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .footer-brand {
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+  }
+  .footer-partners {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .footer-partners strong { color: var(--ink); font-weight: 600; }
+  .footer-meta {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    text-align: right;
+    letter-spacing: 0.05em;
+  }
+
+  /* ------- RESPONSIVE ------- */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 1.5rem; }
+    nav.scrolled { padding: 1rem 1.5rem; }
+    .nav-right { gap: 1.25rem; font-size: 0.8rem; }
+    .hero-content { left: 1.5rem; right: 1.5rem; bottom: 3rem; }
+    .hero-meta { gap: 1rem; }
+    .hero-meta-divider { display: none; }
+    section.spaced { padding: 6rem 1.5rem; }
+    .intro { grid-template-columns: 1fr; gap: 3rem; }
+    .highlights { padding: 4rem 1.5rem; }
+    .highlights-inner { grid-template-columns: repeat(2, 1fr); gap: 3rem 2rem; }
+    .equation { gap: 1.25rem; padding-bottom: 3rem; }
+    .eq-op { font-size: 2rem; transform: rotate(90deg); align-self: center; }
+    .programs { grid-template-columns: 1fr; gap: 3rem; }
+    .gallery { grid-template-columns: 1fr; }
+    .tour { padding: 6rem 1.5rem; }
+    .tour-inner { grid-template-columns: 1fr; gap: 4rem; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-brand">1070 Dill</a>
+  <div class="nav-right">
+    <a href="#about" class="nav-link">The Project</a>
+    <a href="#how" class="nav-link">How It Works</a>
+    <a href="#tour" class="nav-link">Schedule a Tour</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="townhomes-hero.jpg">
+    <source src="townhomes-hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Capitol View · Southwest Atlanta</div>
+    <h1 class="hero-title">1070 Dill</h1>
+    <div class="hero-meta">
+      <span>New Affordable Townhomes</span>
+      <span class="hero-meta-divider"></span>
+      <span>From the <strong>$170s</strong></span>
+      <span class="hero-meta-divider"></span>
+      <span>Now Selling</span>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="spaced" id="about">
+  <div class="container">
+    <div class="intro">
+      <div class="intro-image placeholder"></div>
+      <div>
+        <div class="eyebrow">Welcome to 1070 Dill</div>
+        <h2 class="display">A new kind of pocket neighborhood in Capitol View.</h2>
+        <p class="lede">Brand new one-bedroom townhomes designed for the people who make Atlanta work — teachers, nurses, transit operators, public servants, artists. Two minutes from the Oakland City MARTA station, fifteen from the BeltLine, and steps from the Atlanta University Center.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="highlights">
+  <div class="highlights-inner">
+    <div class="highlight">
+      <div class="highlight-num">$170K<small>starting</small></div>
+      <div class="highlight-label">Pricing</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-num">$35K<small>up to</small></div>
+      <div class="highlight-label">Down Payment Assistance</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-num">2<small>min walk</small></div>
+      <div class="highlight-label">To MARTA</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-num">15<small>min walk</small></div>
+      <div class="highlight-label">To the BeltLine</div>
+    </div>
+  </div>
+</section>
+
+<!-- THE MATH -->
+<section class="spaced math-section" id="how">
+  <div class="container">
+    <div class="eyebrow">How it works</div>
+    <h2 class="display">Real homeownership, real numbers.</h2>
+    <p class="lede">A one-bedroom townhome starts at $170,000. With down payment assistance, your effective starting cost drops to $135,000 — and 100% financing is available, meaning $0 out of pocket at closing.</p>
+
+    <div class="equation">
+      <div class="eq-item">
+        <div class="eq-label">Starting Price</div>
+        <div class="eq-value">$170K</div>
+      </div>
+      <div class="eq-op">−</div>
+      <div class="eq-item">
+        <div class="eq-label">Down Payment Assistance</div>
+        <div class="eq-value">$35K</div>
+      </div>
+      <div class="eq-op">=</div>
+      <div class="eq-item">
+        <div class="eq-label">Effective Cost</div>
+        <div class="eq-value result">$135K</div>
+      </div>
+    </div>
+
+    <div class="programs">
+      <div>
+        <div class="program-name">Atlanta Housing DPA</div>
+        <div class="program-amount">Up to $25,000</div>
+        <p class="program-desc">Forgiven after 10 years. Available to first-time buyers within program income limits.</p>
+      </div>
+      <div>
+        <div class="program-name">Invest Atlanta HomeNOW</div>
+        <div class="program-amount">Up to $10,000</div>
+        <p class="program-desc">Forgiven after 5 years. Available to buyers earning up to 120% of area median income.</p>
+      </div>
+    </div>
+
+    <p class="fine-print">Eligibility depends on household income, credit, and program-specific requirements. Most qualifying buyers can stack both programs. Talk to our team to see exactly what you qualify for.</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="gallery-img placeholder" data-name="exterior.jpg"></div>
+  <div class="gallery-img placeholder" data-name="interior.jpg"></div>
+  <div class="gallery-img placeholder" data-name="courtyard.jpg"></div>
+</section>
+
+<!-- TOUR -->
+<section class="tour" id="tour">
+  <div class="tour-inner">
+    <div class="tour-left">
+      <div class="eyebrow">Schedule a tour</div>
+      <h2 class="display">Come see it in person.</h2>
+      <p class="lede">Pick a time that works. We'll walk you through the model home, show you the neighborhood, and break down exactly what you'd qualify for.</p>
+      <div class="contact-line">
+        Prefer to text or call?
+        <span class="name">Diana Dandridge</span>
+        (901) 299-0364
+      </div>
+    </div>
+    <form class="tour-form" onsubmit="event.preventDefault(); alert('Wire this form to your lead system (Calendly, HubSpot, etc.)');">
+      <h3>Request a tour</h3>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" required />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" />
+      </div>
+      <div class="field">
+        <label for="status">Where are you in the process?</label>
+        <select id="status">
+          <option>Just curious</option>
+          <option>Researching seriously</option>
+          <option>Pre-approved and ready</option>
+        </select>
+      </div>
+      <button type="submit" class="submit">Request a tour</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Culdesac · 1070 Dill</div>
+    <div class="footer-partners">In partnership with <strong>Invest Atlanta</strong>, <strong>Atlanta Housing</strong>, and <strong>Huntington Bank</strong>.</div>
+    <div class="footer-meta">Equal Housing Opportunity · Pricing subject to change</div>
+  </div>
+</footer>
+
+<script>
+  // Nav transitions to solid on scroll
+  const navEl = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) navEl.classList.add('scrolled');
+    else navEl.classList.remove('scrolled');
+  });
+</script>
+
+</body>
+</html>
