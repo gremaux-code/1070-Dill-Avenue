@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>1070 Dill — New Townhomes in Capitol View, Atlanta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-warm: #f7f4ef;
+    --ink: #1a1a1a;
+    --ink-soft: #6c6c6c;
+    --line: #d8d3ca;
+    --accent: #8b6b3d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  /* ------- NAV ------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s, padding 0.3s, color 0.3s;
+  }
+  nav.scrolled {
+    background: var(--bg);
+    padding: 1rem 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-brand {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: white;
+  }
+  nav.scrolled .nav-brand { color: var(--ink); }
+  .nav-right {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  nav.scrolled .nav-right { color: var(--ink); }
+  .nav-link {
+    letter-spacing: 0.03em;
+    transition: opacity 0.15s;
+  }
+  .nav-link:hover { opacity: 0.6; }
+  .nav-cta {
+    border: 1px solid currentColor;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, opacity 0.2s;
+  }
+  .nav-cta:hover {
+    background: white;
+    color: var(--ink);
+    border-color: white;
+    opacity: 1;
+  }
+  nav.scrolled .nav-cta:hover {
+    background: var(--ink);
+    color: white;
+    border-color: var(--ink);
+  }
+
+  /* ------- HERO ------- */
+  .hero {
+    height: 100vh;
+    min-height: 720px;
+    position: relative;
+    overflow: hidden;
+    background: #2a2a2a;
+  }
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: absolute;
+    bottom: 5rem;
+    left: 2.5rem;
+    right: 2.5rem;
+    color: white;
+    max-width: 1500px;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 1.25rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.95;
+  }
+  .hero-meta-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255,255,255,0.5);
+  }
+  .hero-meta strong { font-weight: 600; }
+
+  /* ------- SECTION BASE ------- */
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+  .lede {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 640px;
+    line-height: 1.65;
+  }
+
+  /* ------- PRICING ------- */
+  .pricing {
+    padding: 10rem 2.5rem 8rem;
+    background: var(--bg);
+    text-align: center;
+  }
+  .pricing-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .pricing-amount {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(5rem, 13vw, 10rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 1.75rem;
+  }
+  .pricing-badge {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: var(--bg-warm);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    margin-bottom: 4.5rem;
+  }
+  .pricing-tagline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    max-width: 720px;
+    margin: 0 auto 1.5rem;
+  }
+  .pricing-support {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: 6rem;
+  }
+  .partners-row {
+    padding-top: 3.5rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .partners-label {
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+  .partner-name {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--ink);
+  }
+  .partners-row .divider {
+    width: 1px;
+    height: 14px;
+    background: var(--line);
+  }
+
+  /* ------- NEARBY (CAROUSEL) ------- */
+  .nearby {
+    padding: 8rem 0 8rem 2.5rem;
+    background: var(--bg-warm);
+  }
+  .nearby-header {
+    max-width: 1300px;
+    margin: 0 auto 4rem;
+    padding-right: 2.5rem;
+  }
+  .nearby-scroll {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1.5rem;
+    padding-right: 2.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+  .nearby-scroll::-webkit-scrollbar { height: 4px; }
+  .nearby-scroll::-webkit-scrollbar-track { background: transparent; }
+  .nearby-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+  .nearby-card {
+    flex: 0 0 auto;
+    width: 340px;
+    scroll-snap-align: start;
+  }
+  .nearby-card-img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    background: var(--ink);
+    margin-bottom: 1.25rem;
+    display: block;
+    transition: opacity 0.2s;
+  }
+  .nearby-card:hover .nearby-card-img { opacity: 0.9; }
+  .nearby-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.005em;
+  }
+  .nearby-distance {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ------- PHOTO GRID ------- */
+  .photo-grid {
+    padding: 8rem 2.5rem;
+    background: var(--bg);
+  }
+  .photo-grid-header {
+    max-width: 1300px;
+    margin: 0 auto 4rem;
+  }
+  .photo-grid-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .photo-cell {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--bg-warm);
+    position: relative;
+    cursor: pointer;
+  }
+  .photo-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .photo-cell:hover img { transform: scale(1.05); }
+
+  /* ------- TOUR (FULL-BLEED OVERLAY) ------- */
+  .tour {
+    position: relative;
+    padding: 10rem 2.5rem;
+    background: var(--ink) url('tour-bg.jpg') center/cover no-repeat;
+    color: white;
+    overflow: hidden;
+  }
+  .tour::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.45) 100%);
+  }
+  .tour-inner {
+    position: relative;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .tour-left .eyebrow { color: rgba(255,255,255,0.7); }
+  .tour-left .display { color: white; max-width: 480px; }
+  .tour-left .lede { color: rgba(255,255,255,0.8); }
+  .tour-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    background: white;
+    color: var(--ink);
+    padding: 1.1rem 2.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+  .tour-primary:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+  }
+  .tour-primary::after { content: "→"; }
+  .contact-line {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.8);
+  }
+  .contact-line .name {
+    display: block;
+    color: white;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .tour-form {
+    color: white;
+  }
+  .tour-form h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.005em;
+  }
+  .field {
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .field label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.6rem;
+  }
+  .field input,
+  .field select {
+    width: 100%;
+    padding: 0.5rem 0 0.7rem;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+    background: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-bottom-color: white;
+  }
+  .field select option { color: var(--ink); }
+  .submit {
+    margin-top: 2.5rem;
+    background: white;
+    color: var(--ink);
+    padding: 1.1rem 2.5rem;
+    border: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .submit:hover { background: var(--accent); color: white; }
+
+  /* ------- FOOTER ------- */
+  footer {
+    padding: 4rem 2.5rem 3rem;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+  .footer-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .footer-brand {
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+  }
+  .footer-partners {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .footer-partners strong { color: var(--ink); font-weight: 600; }
+  .footer-meta {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    text-align: right;
+    letter-spacing: 0.05em;
+  }
+
+  /* ------- LIGHTBOX ------- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 15, 15, 0.96);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    user-select: none;
+  }
+  .lightbox-close,
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.4rem;
+    line-height: 1;
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+    padding: 0;
+  }
+  .lightbox-close:hover,
+  .lightbox-prev:hover,
+  .lightbox-next:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  /* ------- RESPONSIVE ------- */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 1.5rem; }
+    nav.scrolled { padding: 1rem 1.5rem; }
+    .nav-right { gap: 1rem; font-size: 0.78rem; }
+    .nav-link:not(.nav-cta) { display: none; }
+    .hero-content { left: 1.5rem; right: 1.5rem; bottom: 3rem; }
+    .hero-meta { gap: 1rem; }
+    .hero-meta-divider { display: none; }
+    .pricing { padding: 6rem 1.5rem 5rem; }
+    .pricing-support { margin-bottom: 4rem; }
+    .partners-row { gap: 1.5rem; }
+    .nearby { padding: 5rem 0 5rem 1.5rem; }
+    .nearby-header { padding-right: 1.5rem; margin-bottom: 2.5rem; }
+    .nearby-card { width: 260px; }
+    .photo-grid { padding: 5rem 1.5rem; }
+    .photo-grid-inner {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .tour { padding: 6rem 1.5rem; }
+    .tour-inner { grid-template-columns: 1fr; gap: 4rem; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-brand">1070 Dill</a>
+  <div class="nav-right">
+    <a href="#tour" class="nav-link">Contact Us</a>
+    <a href="#" class="nav-link" id="nav-photos">Photos</a>
+    <a href="#model" class="nav-link">View the Model</a>
+    <a href="#tour" class="nav-link nav-cta">Schedule a Tour</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="townhomes-hero.jpg">
+    <source src="townhomes-hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Capitol View · Southwest Atlanta</div>
+    <h1 class="hero-title">1070 Dill</h1>
+    <div class="hero-meta">
+      <span>Brand New Townhomes</span>
+      <span class="hero-meta-divider"></span>
+      <span>From the <strong>$170s</strong></span>
+      <span class="hero-meta-divider"></span>
+      <span>Now Selling</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="pricing-inner">
+    <div class="eyebrow">Now Selling</div>
+    <div class="pricing-amount">$170,000</div>
+    <div class="pricing-badge">+ up to $35,000 in down payment assistance</div>
+    <h2 class="pricing-tagline">Brand new one-bedroom townhomes in Capitol View, for sale.</h2>
+    <p class="pricing-support">Move-in ready · 2 min walk to MARTA · 15 min walk to the BeltLine</p>
+
+    <div class="partners-row">
+      <span class="partners-label">Built by</span>
+      <span class="partner-name">Culdesac</span>
+      <span class="divider"></span>
+      <span class="partners-label">In partnership with</span>
+      <span class="partner-name">Invest Atlanta</span>
+      <span class="partner-name">Atlanta Housing</span>
+      <span class="partner-name">Urban Oasis</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S NEARBY -->
+<section class="nearby" id="nearby">
+  <div class="nearby-header">
+    <div class="eyebrow">The neighborhood</div>
+    <h2 class="display">Everything you need nearby.</h2>
+  </div>
+  <div class="nearby-scroll">
+    <a class="nearby-card" href="https://itsmarta.com/" target="_blank" rel="noopener">
+      <img class="nearby-card-img" src="marta.jpg" alt="Oakland City MARTA" style="object-position: 25% center;">
+      <div class="nearby-name">Oakland City MARTA</div>
+      <div class="nearby-distance">2 min walk</div>
+    </a>
+    <a class="nearby-card" href="https://www.koncepthouse.com/capitolview" target="_blank" rel="noopener">
+      <img class="nearby-card-img" src="koncept-house.jpg" alt="Koncept House">
+      <div class="nearby-name">Koncept House</div>
+      <div class="nearby-distance">5 min walk</div>
+    </a>
+    <a class="nearby-card" href="https://www.leeandwhiteatl.com/" target="_blank" rel="noopener">
+  <img class="nearby-card-img" src="lee-white.png" alt="Lee + White" style="object-position: 100% center;">
+  <div class="nearby-name">Lee + White</div>
+  <div class="nearby-distance">12 min walk</div>
+</a>
+    <a class="nearby-card" href="https://beltline.org/visit/" target="_blank" rel="noopener">
+      <img class="nearby-card-img" src="atlanta-westside-beltline-tunnel-mural-1000x573-1.jpg" alt="Atlanta BeltLine">
+      <div class="nearby-name">Atlanta BeltLine</div>
+      <div class="nearby-distance">15 min walk</div>
+    </a>
+  </div>
+</section>
+
+<!-- PHOTO GRID -->
+<section class="photo-grid" id="model">
+  <div class="photo-grid-header">
+    <div class="eyebrow">Inside the homes</div>
+    <h2 class="display">See yourself here.</h2>
+  </div>
+  <div class="photo-grid-inner">
+    <div class="photo-cell"><img src="1070-exterior4.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-exterior2.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-exterior6.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-interior7.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-interior2.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-interior10.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-interior4.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-interior5.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-interior1.jpg" alt=""></div>
+  </div>
+</section>
+
+<!-- TOUR -->
+<section class="tour" id="tour">
+  <div class="tour-inner">
+    <div class="tour-left">
+      <div class="eyebrow">Schedule a tour</div>
+      <h2 class="display">Come see it in person.</h2>
+      <p class="lede">Pick a time that works. We'll walk you through the model home, show you the neighborhood, and answer any questions about pricing and down payment assistance.</p>
+      <a href="https://calendly.com/" target="_blank" rel="noopener" class="tour-primary">Schedule a tour</a>
+      <div class="contact-line">
+        Prefer to text or call?
+        <span class="name">Diana Dandridge</span>
+        (901) 299-0364
+      </div>
+    </div>
+    <form class="tour-form" onsubmit="event.preventDefault(); alert('Wire this form to your lead system (Calendly, HubSpot, etc.)');">
+      <h3>Or request a callback</h3>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" required />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" />
+      </div>
+      <div class="field">
+        <label for="status">Where are you in the process?</label>
+        <select id="status">
+          <option>Just curious</option>
+          <option>Researching seriously</option>
+          <option>Pre-approved and ready</option>
+        </select>
+      </div>
+      <button type="submit" class="submit">Request a callback</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Culdesac · 1070 Dill</div>
+    <div class="footer-partners">In partnership with <strong>Invest Atlanta</strong>, <strong>Atlanta Housing</strong>, and <strong>Urban Oasis</strong>.</div>
+    <div class="footer-meta">Equal Housing Opportunity · Pricing subject to change</div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous">‹</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next">›</button>
+  <div class="lightbox-counter" id="lightbox-counter">1 / 9</div>
+</div>
+
+<script>
+  // Nav scroll behavior
+  const navEl = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) navEl.classList.add('scrolled');
+    else navEl.classList.remove('scrolled');
+  });
+
+  // Lightbox
+  const photoCells = document.querySelectorAll('.photo-cell');
+  const photos = Array.from(photoCells).map(cell => cell.querySelector('img').src);
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  let currentIndex = 0;
+
+  function openLightbox(idx) {
+    currentIndex = idx;
+    updateLightbox();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function updateLightbox() {
+    lightboxImg.src = photos[currentIndex];
+    lightboxCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
+  }
+  function nextPhoto() {
+    currentIndex = (currentIndex + 1) % photos.length;
+    updateLightbox();
+  }
+  function prevPhoto() {
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    updateLightbox();
+  }
+
+  photoCells.forEach((cell, idx) => {
+    cell.addEventListener('click', () => openLightbox(idx));
+  });
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-next').addEventListener('click', nextPhoto);
+  document.getElementById('lightbox-prev').addEventListener('click', prevPhoto);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextPhoto();
+    if (e.key === 'ArrowLeft') prevPhoto();
+  });
+
+  // Photos nav link opens lightbox at first photo
+  document.getElementById('nav-photos')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openLightbox(0);
+  });
+</script>
+
+</body>
+</html>

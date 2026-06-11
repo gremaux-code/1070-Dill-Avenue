@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>1070 Dill — New Townhomes in Capitol View, Atlanta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,10 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
   body {
     font-family: 'Inter', -apple-system, system-ui, sans-serif;
     background: var(--bg);
@@ -38,7 +41,7 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    padding: 1.5rem 2.5rem;
+    padding: 1.5rem max(2.5rem, env(safe-area-inset-right)) 1.5rem max(2.5rem, env(safe-area-inset-left));
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,7 +49,7 @@
   }
   nav.scrolled {
     background: var(--bg);
-    padding: 1rem 2.5rem;
+    padding: 1rem max(2.5rem, env(safe-area-inset-right)) 1rem max(2.5rem, env(safe-area-inset-left));
     border-bottom: 1px solid var(--line);
   }
   .nav-brand {
@@ -93,6 +96,7 @@
   /* ------- HERO ------- */
   .hero {
     height: 100vh;
+    height: 100svh; /* excludes mobile browser chrome — no jump on scroll */
     min-height: 720px;
     position: relative;
     overflow: hidden;
@@ -115,8 +119,8 @@
   .hero-content {
     position: absolute;
     bottom: 5rem;
-    left: 2.5rem;
-    right: 2.5rem;
+    left: max(2.5rem, env(safe-area-inset-left));
+    right: max(2.5rem, env(safe-area-inset-right));
     color: white;
     max-width: 1500px;
   }
@@ -179,7 +183,7 @@
 
   /* ------- PRICING ------- */
   .pricing {
-    padding: 10rem 2.5rem 8rem;
+    padding: 5rem 2.5rem 2rem;
     background: var(--bg);
     text-align: center;
   }
@@ -195,16 +199,34 @@
     line-height: 1;
     margin-bottom: 1.75rem;
   }
-  .pricing-badge {
-    display: inline-block;
-    padding: 0.7rem 1.5rem;
-    background: var(--bg-warm);
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
+  .pricing-assist {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    font-weight: 400;
+    letter-spacing: -0.005em;
     color: var(--ink);
-    margin-bottom: 4.5rem;
+    margin-bottom: 4rem;
+  }
+  /* Marker-swipe highlight behind the dollar figure */
+  .hl {
+    position: relative;
+    z-index: 0;
+    white-space: nowrap;
+    font-weight: 600;
+    padding: 0 0.1em;
+  }
+  .hl::before {
+    content: "";
+    position: absolute;
+    left: -0.12em;
+    right: -0.12em;
+    top: 48%;
+    bottom: -0.04em;
+    background: var(--accent);
+    opacity: 0.28;
+    transform: skew(-14deg) rotate(-1.2deg);
+    border-radius: 0.1em;
+    z-index: -1;
   }
   .pricing-tagline {
     font-family: 'Cormorant Garamond', Georgia, serif;
@@ -221,13 +243,7 @@
     margin-bottom: 6rem;
   }
   .partners-row {
-    padding-top: 3.5rem;
-    border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2.5rem;
-    flex-wrap: wrap;
+    display: none;
   }
   .partners-label {
     text-transform: uppercase;
@@ -243,6 +259,15 @@
     font-size: 0.8rem;
     color: var(--ink);
   }
+  .partner-logo {
+    height: 26px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+    transform: translateY(2px);
+  }
   .partners-row .divider {
     width: 1px;
     height: 14px;
@@ -251,7 +276,7 @@
 
   /* ------- NEARBY (CAROUSEL) ------- */
   .nearby {
-    padding: 8rem 0 8rem 2.5rem;
+    padding: 4rem 0 4rem 2.5rem;
     background: var(--bg-warm);
   }
   .nearby-header {
@@ -338,16 +363,11 @@
   .tour {
     position: relative;
     padding: 10rem 2.5rem;
-    background: var(--ink) url('tour-bg.jpg') center/cover no-repeat;
-    color: white;
+    background: var(--bg-warm);
+    color: var(--ink);
     overflow: hidden;
   }
-  .tour::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.45) 100%);
-  }
+  .tour::before { display: none; }
   .tour-inner {
     position: relative;
     max-width: 1300px;
@@ -357,12 +377,13 @@
     gap: 6rem;
     align-items: center;
   }
-  .tour-left .eyebrow { color: rgba(255,255,255,0.7); }
-  .tour-left .display { color: white; max-width: 480px; }
-  .tour-left .lede { color: rgba(255,255,255,0.8); }
+  .tour-left .eyebrow { color: var(--accent); }
+  .tour-left .display { color: var(--ink); max-width: 480px; }
+  .tour-left .lede { color: var(--ink-soft); }
   .tour-primary {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
     margin-top: 2.5rem;
     background: white;
@@ -386,19 +407,19 @@
   .contact-line {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.25);
+    border-top: 1px solid var(--line);
     font-size: 0.95rem;
-    color: rgba(255,255,255,0.8);
+    color: var(--ink-soft);
   }
   .contact-line .name {
     display: block;
-    color: white;
+    color: var(--ink);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1.5rem;
     margin-bottom: 0.25rem;
   }
   .tour-form {
-    color: white;
+    color: var(--ink);
   }
   .tour-form h3 {
     font-family: 'Cormorant Garamond', Georgia, serif;
@@ -452,6 +473,155 @@
     transition: background 0.2s, color 0.2s;
   }
   .submit:hover { background: var(--accent); color: white; }
+
+  /* ------- HUBSPOT FORM OVERRIDES ------- */
+  .tour .tour-form form,
+  .tour .tour-form form *,
+  .tour .tour-form .hs-form-field,
+  .tour .tour-form .hs-form-field * {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+    color: white !important;
+    box-sizing: border-box;
+  }
+  .tour .tour-form fieldset {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+  .tour .tour-form .hs-form-field {
+    margin-bottom: 1.5rem !important;
+  }
+  .tour .tour-form .hs-form-field > label,
+  .tour .tour-form .hs-form-field > label > span {
+    display: inline-block !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.25em !important;
+    text-transform: uppercase !important;
+    color: rgba(255,255,255,0.7) !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 500 !important;
+  }
+  .tour .tour-form .hs-form-required {
+    color: var(--accent) !important;
+    margin-left: 0.25rem !important;
+  }
+  .tour .tour-form .input { margin: 0 !important; }
+  .tour .tour-form input.hs-input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+  .tour .tour-form select.hs-input,
+  .tour .tour-form textarea.hs-input {
+    width: 100% !important;
+    padding: 0.5rem 0 0.7rem !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.35) !important;
+    background: transparent !important;
+    color: white !important;
+    font-size: 1rem !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
+  }
+  .tour .tour-form input.hs-input:focus,
+  .tour .tour-form select.hs-input:focus,
+  .tour .tour-form textarea.hs-input:focus {
+    border-bottom-color: white !important;
+  }
+  .tour .tour-form input.hs-input::placeholder,
+  .tour .tour-form textarea.hs-input::placeholder {
+    color: rgba(255,255,255,0.3) !important;
+  }
+  .tour .tour-form select.hs-input option {
+    color: var(--ink) !important;
+    background: var(--bg) !important;
+  }
+  .tour .tour-form ul.inputs-list,
+  .tour .tour-form ul.no-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0.5rem 0 0 !important;
+  }
+  .tour .tour-form ul.inputs-list li {
+    margin-bottom: 0.4rem !important;
+    list-style: none !important;
+  }
+  .tour .tour-form ul.inputs-list li label,
+  .tour .tour-form ul.inputs-list li label span {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    color: white !important;
+    font-size: 0.95rem !important;
+    cursor: pointer !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    font-weight: 400 !important;
+    margin-bottom: 0 !important;
+  }
+  .tour .tour-form ul.inputs-list input[type="checkbox"],
+  .tour .tour-form ul.inputs-list input[type="radio"] {
+    margin: 0 !important;
+    accent-color: white !important;
+    width: auto !important;
+  }
+  .tour .tour-form ul.hs-error-msgs,
+  .tour .tour-form ul.hs-error-msgs li,
+  .tour .tour-form ul.hs-error-msgs li label,
+  .tour .tour-form .hs-error-msg {
+    color: #f4a884 !important;
+    font-size: 0.8rem !important;
+    margin-top: 0.4rem !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    list-style: none !important;
+    padding: 0 !important;
+    font-weight: 400 !important;
+  }
+  .tour .tour-form .hs-fieldtype-checkbox > label,
+  .tour .tour-form .hs-fieldtype-checkbox > label span,
+  .tour .tour-form .hs-fieldtype-booleancheckbox > label,
+  .tour .tour-form .hs-fieldtype-booleancheckbox > label span {
+    display: block !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.25em !important;
+    text-transform: uppercase !important;
+    color: rgba(255,255,255,0.7) !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .tour .tour-form fieldset.form-columns-2 {
+    display: flex !important;
+    gap: 1.5rem !important;
+    flex-wrap: wrap !important;
+  }
+  .tour .tour-form fieldset.form-columns-2 > .hs-form-field {
+    flex: 1 1 calc(50% - 0.75rem) !important;
+    min-width: 0 !important;
+  }
+  .tour .tour-form input[type="submit"].hs-button,
+  .tour .tour-form .hs-button,
+  .tour .tour-form .actions input[type="submit"] {
+    margin-top: 2rem !important;
+    background: white !important;
+    color: var(--ink) !important;
+    padding: 1.1rem 2.5rem !important;
+    border: none !important;
+    border-radius: 999px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.25em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    width: auto !important;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .tour .tour-form input[type="submit"].hs-button:hover,
+  .tour .tour-form .hs-button:hover {
+    background: var(--accent) !important;
+    color: white !important;
+  }
+
+
 
   /* ------- FOOTER ------- */
   footer {
@@ -545,16 +715,50 @@
 
   /* ------- RESPONSIVE ------- */
   @media (max-width: 900px) {
-    nav { padding: 1.25rem 1.5rem; }
-    nav.scrolled { padding: 1rem 1.5rem; }
-    .nav-right { gap: 1rem; font-size: 0.78rem; }
-    .nav-link:not(.nav-cta) { display: none; }
-    .hero-content { left: 1.5rem; right: 1.5rem; bottom: 3rem; }
-    .hero-meta { gap: 1rem; }
+    nav {
+      padding: 1.25rem max(1.5rem, env(safe-area-inset-right)) 1.25rem max(1.5rem, env(safe-area-inset-left));
+    }
+    nav.scrolled {
+      padding: 1rem max(1.5rem, env(safe-area-inset-right)) 1rem max(1.5rem, env(safe-area-inset-left));
+    }
+    .nav-right { gap: 1.25rem; font-size: 0.78rem; }
+    /* Keep Photos reachable on mobile; hide the rest of the text links */
+    .nav-link:not(.nav-cta):not(#nav-photos) { display: none; }
+
+    /* Hero: fit one true screen, stack meta, tighten type */
+    .hero { min-height: 0; }
+    .hero-overlay {
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.30) 45%, rgba(0,0,0,0.65) 100%);
+    }
+    .hero-content {
+      left: max(1.5rem, env(safe-area-inset-left));
+      right: max(1.5rem, env(safe-area-inset-right));
+      bottom: calc(3.5rem + env(safe-area-inset-bottom));
+    }
+    .hero-eyebrow { font-size: 0.65rem; letter-spacing: 0.25em; margin-bottom: 1rem; }
+    .hero-title {
+      font-size: clamp(3.25rem, 16vw, 5.5rem);
+      line-height: 1.02;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+      margin-bottom: 1.25rem;
+    }
+    .hero-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
     .hero-meta-divider { display: none; }
-    .pricing { padding: 6rem 1.5rem 5rem; }
-    .pricing-support { margin-bottom: 4rem; }
-    .partners-row { gap: 1.5rem; }
+
+    /* Tighter rhythm so the warm "nearby" section peeks in below (~75svh) */
+    .pricing { padding: 4.5rem 1.5rem 3.5rem; }
+    .pricing-amount { font-size: clamp(3.5rem, 14vw, 10rem); margin-bottom: 0.75rem; }
+    .pricing-assist { font-size: 1.35rem; margin-bottom: 2rem; }
+    .pricing-tagline { margin-bottom: 0.85rem; }
+    .pricing-support { font-size: 0.95rem; margin-bottom: 2.5rem; }
+    .partners-row { padding-top: 1.75rem; gap: 0.5rem 1rem; }
+    .partners-label { font-size: 0.62rem; }
+    .partner-name { font-size: 0.7rem; letter-spacing: 0.15em; }
     .nearby { padding: 5rem 0 5rem 1.5rem; }
     .nearby-header { padding-right: 1.5rem; margin-bottom: 2.5rem; }
     .nearby-card { width: 260px; }
@@ -566,6 +770,41 @@
     .tour-inner { grid-template-columns: 1fr; gap: 4rem; }
     .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
     .footer-meta { text-align: left; }
+
+    /* Lightbox: more room for the photo, controls out of the image */
+    .lightbox {
+      padding: calc(1rem + env(safe-area-inset-top)) 1rem calc(5.5rem + env(safe-area-inset-bottom));
+    }
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+      width: 44px;
+      height: 44px;
+      font-size: 1.2rem;
+    }
+    .lightbox-close {
+      top: calc(1rem + env(safe-area-inset-top));
+      right: 1rem;
+    }
+    .lightbox-prev,
+    .lightbox-next {
+      top: auto;
+      bottom: calc(1.25rem + env(safe-area-inset-bottom));
+      transform: none;
+    }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+    .lightbox-counter {
+      bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Next card peeks in from the edge — signals the carousel scrolls */
+    .nearby-card { width: min(78vw, 300px); }
+    /* Full-width tap targets */
+    .tour-primary { width: 100%; }
+    .submit { width: 100%; }
   }
 </style>
 </head>
@@ -577,7 +816,6 @@
   <div class="nav-right">
     <a href="#tour" class="nav-link">Contact Us</a>
     <a href="#" class="nav-link" id="nav-photos">Photos</a>
-    <a href="#model" class="nav-link">View the Model</a>
     <a href="#tour" class="nav-link nav-cta">Schedule a Tour</a>
   </div>
 </nav>
@@ -606,15 +844,13 @@
   <div class="pricing-inner">
     <div class="eyebrow">Now Selling</div>
     <div class="pricing-amount">$170,000</div>
-    <div class="pricing-badge">+ up to $35,000 in down payment assistance</div>
+    <div class="pricing-assist">+ up to <span class="hl">$55,000</span> in down payment assistance</div>
     <h2 class="pricing-tagline">Brand new one-bedroom townhomes in Capitol View, for sale.</h2>
     <p class="pricing-support">Move-in ready · 2 min walk to MARTA · 15 min walk to the BeltLine</p>
 
     <div class="partners-row">
       <span class="partners-label">Built by</span>
-      <span class="partner-name">Culdesac</span>
-      <span class="divider"></span>
-      <span class="partners-label">In partnership with</span>
+<img class="partner-logo" src="culdesac-logo.png" alt="Culdesac" />      <span class="partners-label">with</span>
       <span class="partner-name">Invest Atlanta</span>
       <span class="partner-name">Atlanta Housing</span>
       <span class="partner-name">Urban Oasis</span>
@@ -630,24 +866,25 @@
   </div>
   <div class="nearby-scroll">
     <a class="nearby-card" href="https://itsmarta.com/" target="_blank" rel="noopener">
-      <img class="nearby-card-img" src="marta.jpg" alt="Oakland City MARTA" style="object-position: 25% center;">
+      <img class="nearby-card-img" src="marta.jpg" alt="Oakland City MARTA" style="object-position: 25% center;" loading="lazy" decoding="async">
       <div class="nearby-name">Oakland City MARTA</div>
       <div class="nearby-distance">2 min walk</div>
     </a>
-    <a class="nearby-card" href="https://www.koncepthouse.com/capitolview" target="_blank" rel="noopener">
-      <img class="nearby-card-img" src="koncept-house.jpg" alt="Koncept House">
-      <div class="nearby-name">Koncept House</div>
-      <div class="nearby-distance">5 min walk</div>
-    </a>
+
     <a class="nearby-card" href="https://www.leeandwhiteatl.com/" target="_blank" rel="noopener">
-  <img class="nearby-card-img" src="lee-white.png" alt="Lee + White" style="object-position: 100% center;">
+  <img class="nearby-card-img" src="lee-white.jpg" alt="Lee + White" style="object-position: 100% center;" loading="lazy" decoding="async">
   <div class="nearby-name">Lee + White</div>
   <div class="nearby-distance">12 min walk</div>
 </a>
     <a class="nearby-card" href="https://beltline.org/visit/" target="_blank" rel="noopener">
-      <img class="nearby-card-img" src="atlanta-westside-beltline-tunnel-mural-1000x573-1.jpg" alt="Atlanta BeltLine">
+      <img class="nearby-card-img" src="beltline.jpg" alt="Atlanta BeltLine" loading="lazy" decoding="async">
       <div class="nearby-name">Atlanta BeltLine</div>
       <div class="nearby-distance">15 min walk</div>
+    </a>
+    <a class="nearby-card" href="https://www.koncepthouse.com/capitolview" target="_blank" rel="noopener">
+      <img class="nearby-card-img" src="koncept-house.jpg" alt="Koncept House" loading="lazy" decoding="async">
+      <div class="nearby-name">Koncept House</div>
+      <div class="nearby-distance">5 min walk</div>
     </a>
   </div>
 </section>
@@ -659,15 +896,15 @@
     <h2 class="display">See yourself here.</h2>
   </div>
   <div class="photo-grid-inner">
-    <div class="photo-cell"><img src="1070-exterior4.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-exterior2.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-exterior6.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-interior7.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-interior2.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-interior10.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-interior4.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-interior5.jpg" alt=""></div>
-    <div class="photo-cell"><img src="1070-interior1.jpg" alt=""></div>
+    <div class="photo-cell"><img src="1070-exterior4.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-exterior2.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-exterior6.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-interior7.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-interior2.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-interior10.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-interior4.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-interior5.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="photo-cell"><img src="1070-interior1.jpg" alt="" loading="lazy" decoding="async"></div>
   </div>
 </section>
 
@@ -677,38 +914,26 @@
     <div class="tour-left">
       <div class="eyebrow">Schedule a tour</div>
       <h2 class="display">Come see it in person.</h2>
-      <p class="lede">Pick a time that works. We'll walk you through the model home, show you the neighborhood, and answer any questions about pricing and down payment assistance.</p>
-      <a href="https://calendly.com/" target="_blank" rel="noopener" class="tour-primary">Schedule a tour</a>
+<p class="lede">Contact Diana to schedule a tour at 1070 Dill Avenue. She'll walk you through the model home, show you around the neighborhood, and answer any questions about pricing or down payment assistance.</p>      
       <div class="contact-line">
-        Prefer to text or call?
         <span class="name">Diana Dandridge</span>
         (901) 299-0364
       </div>
     </div>
-    <form class="tour-form" onsubmit="event.preventDefault(); alert('Wire this form to your lead system (Calendly, HubSpot, etc.)');">
-      <h3>Or request a callback</h3>
-      <div class="field">
-        <label for="name">Your name</label>
-        <input type="text" id="name" required />
-      </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input type="email" id="email" required />
-      </div>
-      <div class="field">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" />
-      </div>
-      <div class="field">
-        <label for="status">Where are you in the process?</label>
-        <select id="status">
-          <option>Just curious</option>
-          <option>Researching seriously</option>
-          <option>Pre-approved and ready</option>
-        </select>
-      </div>
-      <button type="submit" class="submit">Request a callback</button>
-    </form>
+    <div class="tour-form">
+      <h3>Contact us</h3>
+      <div id="hubspot-form-container"></div>
+      <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+      <script>
+        hbspt.forms.create({
+          region: "na1",
+          portalId: "6588538",
+          formId: "fbfa3624-1a3a-4bd1-9cc9-eeb531805a5b",
+          target: "#hubspot-form-container",
+          css: ""
+        });
+      </script>
+    </div>
   </div>
 </section>
 
@@ -784,6 +1009,22 @@
     if (e.key === 'ArrowRight') nextPhoto();
     if (e.key === 'ArrowLeft') prevPhoto();
   });
+
+  // Touch swipe in lightbox (mobile)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) nextPhoto();
+      else prevPhoto();
+    }
+  }, { passive: true });
 
   // Photos nav link opens lightbox at first photo
   document.getElementById('nav-photos')?.addEventListener('click', (e) => {
